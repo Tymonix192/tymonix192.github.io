@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- ============================================================
+     EDIT ME — the things I couldn't fill in for you:
+       1. Your name  (hero <h1>, the wordmark, <title>, og:title)
+       2. Your email (appears twice: mailto link + copy button)
+       3. GitHub / LinkedIn / CV links in the contact block
+       4. Every year range — I guessed these, search "EDIT ME: date"
+       5. The About paragraphs — written in your voice, rewrite freely
+       6. Project links (repos, reports, videos) — all currently "#"
+     ============================================================ -->
+
+<title>Karol Wickel — electrical engineering, EPFL</title>
+<meta name="description" content="Electrical engineering student at EPFL. PCB design, motor control, battery management systems and embedded firmware.">
+<meta property="og:title" content="Karol Wickel — electrical engineering, EPFL">
+<meta property="og:description" content="PCB design, motor control, battery management systems and embedded firmware.">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E7C8A'/%3E%3Cpath d='M5 16q5.5-9 11 0t11 0' stroke='white' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ---------------- tokens ---------------- */
+:root {
+  --paper:      #F1F2F4;
+  --paper-sunk: #E4E6EA;
+  --ink:        #121A22;
+  --ink-soft:   #56636F;
+  --rule:       #D2D6DC;
+  --pop:        #0E7C8A;
+  --pop-quiet:  rgba(14, 124, 138, 0.12);
+  --on-pop:     #FFFFFF;
+
+  --ph-a: #0E7C8A;
+  --ph-b: #6F5FE8;
+  --ph-c: #C97C14;
+
+  --shell: 1120px;
+  --prose: 66ch;
+  --pad: clamp(1.25rem, 5vw, 3.5rem);
+
+  --s--1: 0.82rem;
+  --s-0:  1.0625rem;
+  --s-1:  1.3rem;
+  --s-2:  1.6rem;
+  --s-3:  clamp(1.95rem, 4vw, 2.8rem);
+  --s-display: clamp(2.9rem, 12vw, 8rem);
+
+  --sans: "Archivo", ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:      #0F171C;
+    --paper-sunk: #18232B;
+    --ink:        #E4ECF0;
+    --ink-soft:   #93A4AE;
+    --rule:       #26343F;
+    --pop:        #2FC9DC;
+    --pop-quiet:  rgba(47, 201, 220, 0.14);
+    --on-pop:     #0F171C;
+    --ph-a: #2FC9DC;
+    --ph-b: #9A8CFF;
+    --ph-c: #F0A93F;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:      #0F171C;
+  --paper-sunk: #18232B;
+  --ink:        #E4ECF0;
+  --ink-soft:   #93A4AE;
+  --rule:       #26343F;
+  --pop:        #2FC9DC;
+  --pop-quiet:  rgba(47, 201, 220, 0.14);
+  --on-pop:     #0F171C;
+  --ph-a: #2FC9DC;
+  --ph-b: #9A8CFF;
+  --ph-c: #F0A93F;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: inherit; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(5.5rem + env(safe-area-inset-top, 0px));
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--s-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; }
+
+:focus-visible { outline: 2px solid var(--pop); outline-offset: 3px; border-radius: 2px; }
+
+.shell { max-width: var(--shell); margin-inline: auto; padding-inline: var(--pad); }
+
+.skip { position: absolute; left: -9999px; top: 0; background: var(--pop); color: var(--on-pop); padding: 0.6rem 1rem; z-index: 50; }
+.skip:focus { left: 0; }
+
+/* ---------------- header ---------------- */
+.masthead {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+.masthead .shell { display: flex; align-items: center; gap: 1rem; height: 4.25rem; }
+
+.wordmark {
+  font-family: var(--mono);
+  font-size: var(--s--1);
+  color: var(--ink);
+  text-decoration: none;
+  margin-right: auto;
+  white-space: nowrap;
+}
+.wordmark b { color: var(--pop); font-weight: 500; }
+
+.nav-links { display: flex; gap: clamp(0.85rem, 3vw, 1.75rem); }
+.nav-links a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: var(--s--1);
+  padding-block: 0.4rem;
+  border-bottom: 1px solid transparent;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.nav-links a:hover { color: var(--ink); border-bottom-color: var(--pop); }
+@media (max-width: 540px) { .nav-links a.opt { display: none; } }
+
+.theme-btn {
+  display: grid; place-items: center;
+  width: 2.1rem; height: 2.1rem;
+  border: 1px solid var(--rule); border-radius: 50%;
+  background: transparent; color: var(--ink-soft);
+  cursor: pointer; flex: none;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.theme-btn:hover { color: var(--pop); border-color: var(--pop); }
+.theme-btn svg { width: 15px; height: 15px; }
+.theme-btn .sun { display: block; }
+.theme-btn .moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-btn .sun { display: none; }
+  :root:not([data-theme="light"]) .theme-btn .moon { display: block; }
+}
+:root[data-theme="dark"] .theme-btn .sun { display: none; }
+:root[data-theme="dark"] .theme-btn .moon { display: block; }
+:root[data-theme="light"] .theme-btn .sun { display: block; }
+:root[data-theme="light"] .theme-btn .moon { display: none; }
+
+/* ---------------- hero ---------------- */
+.hero { padding-block: clamp(2.25rem, 6vw, 4rem) clamp(3rem, 8vw, 5.5rem); }
+
+.scope { width: 100%; margin-bottom: clamp(1.75rem, 5vw, 3rem); }
+.scope svg { display: block; width: 100%; height: clamp(84px, 14vw, 150px); }
+.scope .axis { stroke: var(--rule); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.scope .trace {
+  fill: none;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.scope .a { stroke: var(--ph-a); }
+.scope .b { stroke: var(--ph-b); animation-delay: 0.13s; }
+.scope .c { stroke: var(--ph-c); animation-delay: 0.26s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+h1 {
+  font-size: var(--s-display);
+  font-weight: 800;
+  font-variation-settings: "wdth" 112, "wght" 800;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  margin: 0;
+}
+h1 .l2 { display: block; color: var(--ink-soft); }
+
+.pitch {
+  max-width: 50ch;
+  font-size: clamp(var(--s-1), 2.4vw, var(--s-2));
+  line-height: 1.4;
+  margin: clamp(1.4rem, 4vw, 2rem) 0 0;
+  text-wrap: pretty;
+}
+
+.status {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  font-family: var(--mono); font-size: var(--s--1);
+  color: var(--ink-soft); margin: 1.5rem 0 0;
+}
+.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--pop); flex: none; }
+
+.jump { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; margin: 1.4rem 0 0; padding: 0; list-style: none; }
+.jump a { color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--pop); padding-bottom: 2px; transition: color 0.18s ease; }
+.jump a:hover { color: var(--pop); }
+
+/* ---------------- bands ---------------- */
+.band { padding-block: clamp(3rem, 7vw, 5.5rem); border-top: 1px solid var(--rule); }
+.band-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: clamp(1.5rem, 4vw, 2.5rem); }
+.band-head h2 {
+  font-size: var(--s-3);
+  font-weight: 700;
+  font-variation-settings: "wdth" 105, "wght" 700;
+  letter-spacing: -0.03em; line-height: 1.05; margin: 0;
+}
+.band-head .meta { font-family: var(--mono); font-size: var(--s--1); color: var(--ink-soft); white-space: nowrap; }
+
+/* ---------------- teams ---------------- */
+.team {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: 0.75rem 2.5rem;
+  padding-block: clamp(1.5rem, 3.5vw, 2.25rem);
+  border-top: 1px solid var(--rule);
+}
+.team:last-of-type { border-bottom: 1px solid var(--rule); }
+.team h3 {
+  font-size: var(--s-1);
+  font-weight: 700;
+  font-variation-settings: "wdth" 102, "wght" 700;
+  letter-spacing: -0.02em; margin: 0 0 0.3rem;
+}
+.team .span { font-family: var(--mono); font-size: var(--s--1); color: var(--ink-soft); }
+.team p { margin: 0; color: var(--ink-soft); max-width: var(--prose); text-wrap: pretty; }
+@media (max-width: 760px) { .team { grid-template-columns: 1fr; } }
+
+/* role progression — a real sequence, so it gets a spine */
+.ladder { list-style: none; margin: 0.9rem 0 0; padding: 0 0 0 1.1rem; border-left: 1px solid var(--rule); }
+.ladder li { position: relative; padding-bottom: 0.7rem; font-size: var(--s--1); color: var(--ink-soft); }
+.ladder li:last-child { padding-bottom: 0; color: var(--ink); }
+.ladder li::before {
+  content: ""; position: absolute; left: calc(-1.1rem - 4px); top: 0.55em;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--paper); border: 1px solid var(--ink-soft);
+}
+.ladder li:last-child::before { background: var(--pop); border-color: var(--pop); }
+.ladder .when { font-family: var(--mono); }
+
+/* ---------------- projects ---------------- */
+.project {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 0 2rem;
+  padding-block: clamp(1.6rem, 4vw, 2.4rem);
+  border-top: 1px solid var(--rule);
+}
+.project:last-of-type { border-bottom: 1px solid var(--rule); }
+.project .year { font-family: var(--mono); font-size: var(--s--1); color: var(--ink-soft); padding-top: 0.4rem; }
+.project h3 {
+  font-size: var(--s-2);
+  font-weight: 700;
+  font-variation-settings: "wdth" 104, "wght" 700;
+  letter-spacing: -0.025em; line-height: 1.12; margin: 0 0 0.25rem;
+}
+.project h3 a {
+  color: inherit; text-decoration: none;
+  background-image: linear-gradient(var(--pop), var(--pop));
+  background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 2px;
+  transition: background-size 0.3s ease;
+}
+.project h3 a:hover { background-size: 100% 2px; }
+.project .where { font-family: var(--mono); font-size: var(--s--1); color: var(--pop); display: block; margin-bottom: 0.7rem; }
+.project p { max-width: var(--prose); color: var(--ink-soft); margin: 0 0 1rem; text-wrap: pretty; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; margin: 0 0 1rem; padding: 0; }
+.tags li { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-soft); background: var(--pop-quiet); padding: 0.22rem 0.5rem; border-radius: 3px; }
+.links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+.links a {
+  font-size: var(--s--1); color: var(--ink); text-decoration: none;
+  border-bottom: 1px solid var(--rule); padding-bottom: 2px;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.links a:hover { color: var(--pop); border-bottom-color: var(--pop); }
+@media (max-width: 640px) {
+  .project { grid-template-columns: 1fr; gap: 0; }
+  .project .year { padding-top: 0; margin-bottom: 0.45rem; }
+}
+
+/* ---------------- board viewer ---------------- */
+[hidden] { display: none !important; }
+.viewer {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--paper-sunk);
+}
+.viewer .altium-ecad-viewer { height: clamp(360px, 58vh, 620px); width: 100%; }
+.caption {
+  margin: 0.9rem 0 0;
+  font-size: var(--s--1);
+  color: var(--ink-soft);
+  max-width: var(--prose);
+}
+.caption code { font-family: var(--mono); font-size: 0.95em; }
+
+/* ---------------- shelf (smaller builds) ---------------- */
+.shelf { list-style: none; margin: 0; padding: 0; }
+.shelf li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.35rem 2rem;
+  align-items: baseline;
+  padding-block: 1.1rem;
+  border-top: 1px solid var(--rule);
+}
+.shelf li:last-child { border-bottom: 1px solid var(--rule); }
+.shelf strong { font-weight: 600; font-variation-settings: "wght" 600; }
+.shelf .note { display: block; color: var(--ink-soft); font-size: var(--s--1); max-width: var(--prose); margin-top: 0.2rem; }
+.shelf .state { font-family: var(--mono); font-size: var(--s--1); color: var(--ink-soft); white-space: nowrap; }
+@media (max-width: 560px) { .shelf li { grid-template-columns: 1fr; } }
+
+/* ---------------- about ---------------- */
+.about-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+@media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
+.about-prose p { max-width: var(--prose); margin: 0 0 1.15rem; text-wrap: pretty; }
+.about-prose p:last-child { margin-bottom: 0; }
+.facts { margin: 0; }
+.facts dt { font-size: var(--s--1); color: var(--ink-soft); padding-bottom: 0.35rem; border-bottom: 1px solid var(--rule); margin-bottom: 0.6rem; }
+.facts dd { margin: 0 0 1.75rem; font-family: var(--mono); font-size: var(--s--1); line-height: 1.85; }
+.facts dd:last-child { margin-bottom: 0; }
+
+/* ---------------- contact ---------------- */
+.contact { background: var(--pop); color: var(--on-pop); border-radius: 8px; padding: clamp(2rem, 6vw, 3.75rem); margin-bottom: clamp(3rem, 7vw, 5rem); }
+.contact h2 {
+  font-size: var(--s-3); font-weight: 700;
+  font-variation-settings: "wdth" 105, "wght" 700;
+  letter-spacing: -0.03em; margin: 0 0 0.75rem;
+}
+.contact p { max-width: 46ch; margin: 0 0 2rem; opacity: 0.9; }
+.mail {
+  display: inline-block;
+  font-size: clamp(1.2rem, 4.4vw, 2.25rem);
+  font-weight: 700; font-variation-settings: "wdth" 100, "wght" 700;
+  letter-spacing: -0.03em; color: var(--on-pop); text-decoration: none;
+  border-bottom: 2px solid color-mix(in srgb, var(--on-pop) 45%, transparent);
+  word-break: break-word; transition: border-color 0.2s ease;
+}
+.mail:hover { border-bottom-color: var(--on-pop); }
+.copy-btn {
+  display: inline-flex; align-items: center; margin-top: 1.5rem;
+  font-family: var(--mono); font-size: var(--s--1); color: var(--on-pop);
+  background: transparent; border: 1px solid color-mix(in srgb, var(--on-pop) 40%, transparent);
+  border-radius: 4px; padding: 0.45rem 0.8rem; cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.copy-btn:hover { background: color-mix(in srgb, var(--on-pop) 14%, transparent); }
+.elsewhere { display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 2.25rem 0 0; padding: 0; list-style: none; }
+.elsewhere a {
+  color: var(--on-pop); font-size: var(--s--1); text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--on-pop) 45%, transparent); padding-bottom: 2px;
+}
+.elsewhere a:hover { border-bottom-color: var(--on-pop); }
+
+/* ---------------- footer ---------------- */
+.colophon {
+  border-top: 1px solid var(--rule); padding-block: 2rem 3rem;
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-content: space-between;
+  font-family: var(--mono); font-size: 0.78rem; color: var(--ink-soft);
+}
+.colophon a { color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .scope .trace { stroke-dashoffset: 0; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="shell">
+    <!-- EDIT ME: name -->
+    <a class="wordmark" href="#top">your<b>.</b>name</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a class="opt" href="#teams">Teams</a>
+      <a href="#work">Work</a>
+      <a class="opt" href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch to dark theme">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.2 4.2l1.5 1.5M18.3 18.3l1.5 1.5M2 12h2M20 12h2M4.2 19.8l1.5-1.5M18.3 5.7l1.5-1.5"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero shell">
+    <div class="scope" aria-hidden="true">
+      <svg viewBox="0 0 1200 200" preserveAspectRatio="none" role="presentation">
+        <line class="axis" x1="0" y1="100" x2="1200" y2="100"/>
+        <path class="trace a" pathLength="1" d="M0 100.0L12 91.6L25 83.4L38 75.5L50 68.0L62 61.0L75 54.7L88 49.2L100 44.6L112 40.9L125 38.2L138 36.5L150 36.0L162 36.5L175 38.2L188 40.9L200 44.6L212 49.2L225 54.7L238 61.0L250 68.0L262 75.5L275 83.4L288 91.6L300 100.0L312 108.4L325 116.6L338 124.5L350 132.0L362 139.0L375 145.3L388 150.8L400 155.4L412 159.1L425 161.8L438 163.5L450 164.0L462 163.5L475 161.8L488 159.1L500 155.4L512 150.8L525 145.3L538 139.0L550 132.0L562 124.5L575 116.6L588 108.4L600 100.0L612 91.6L625 83.4L638 75.5L650 68.0L662 61.0L675 54.7L688 49.2L700 44.6L712 40.9L725 38.2L738 36.5L750 36.0L762 36.5L775 38.2L788 40.9L800 44.6L812 49.2L825 54.7L838 61.0L850 68.0L862 75.5L875 83.4L888 91.6L900 100.0L912 108.4L925 116.6L938 124.5L950 132.0L962 139.0L975 145.3L988 150.8L1000 155.4L1012 159.1L1025 161.8L1038 163.5L1050 164.0L1062 163.5L1075 161.8L1088 159.1L1100 155.4L1112 150.8L1125 145.3L1138 139.0L1150 132.0L1162 124.5L1175 116.6L1188 108.4L1200 100.0"/>
+        <path class="trace b" pathLength="1" d="M0 155.4L12 159.1L25 161.8L38 163.5L50 164.0L62 163.5L75 161.8L88 159.1L100 155.4L112 150.8L125 145.3L138 139.0L150 132.0L162 124.5L175 116.6L188 108.4L200 100.0L212 91.6L225 83.4L238 75.5L250 68.0L262 61.0L275 54.7L288 49.2L300 44.6L312 40.9L325 38.2L338 36.5L350 36.0L362 36.5L375 38.2L388 40.9L400 44.6L412 49.2L425 54.7L438 61.0L450 68.0L462 75.5L475 83.4L488 91.6L500 100.0L512 108.4L525 116.6L538 124.5L550 132.0L562 139.0L575 145.3L588 150.8L600 155.4L612 159.1L625 161.8L638 163.5L650 164.0L662 163.5L675 161.8L688 159.1L700 155.4L712 150.8L725 145.3L738 139.0L750 132.0L762 124.5L775 116.6L788 108.4L800 100.0L812 91.6L825 83.4L838 75.5L850 68.0L862 61.0L875 54.7L888 49.2L900 44.6L912 40.9L925 38.2L938 36.5L950 36.0L962 36.5L975 38.2L988 40.9L1000 44.6L1012 49.2L1025 54.7L1038 61.0L1050 68.0L1062 75.5L1075 83.4L1088 91.6L1100 100.0L1112 108.4L1125 116.6L1138 124.5L1150 132.0L1162 139.0L1175 145.3L1188 150.8L1200 155.4"/>
+        <path class="trace c" pathLength="1" d="M0 44.6L12 49.2L25 54.7L38 61.0L50 68.0L62 75.5L75 83.4L88 91.6L100 100.0L112 108.4L125 116.6L138 124.5L150 132.0L162 139.0L175 145.3L188 150.8L200 155.4L212 159.1L225 161.8L238 163.5L250 164.0L262 163.5L275 161.8L288 159.1L300 155.4L312 150.8L325 145.3L338 139.0L350 132.0L362 124.5L375 116.6L388 108.4L400 100.0L412 91.6L425 83.4L438 75.5L450 68.0L462 61.0L475 54.7L488 49.2L500 44.6L512 40.9L525 38.2L538 36.5L550 36.0L562 36.5L575 38.2L588 40.9L600 44.6L612 49.2L625 54.7L638 61.0L650 68.0L662 75.5L675 83.4L688 91.6L700 100.0L712 108.4L725 116.6L738 124.5L750 132.0L762 139.0L775 145.3L788 150.8L800 155.4L812 159.1L825 161.8L838 163.5L850 164.0L862 163.5L875 161.8L888 159.1L900 155.4L912 150.8L925 145.3L938 139.0L950 132.0L962 124.5L975 116.6L988 108.4L1000 100.0L1012 91.6L1025 83.4L1038 75.5L1050 68.0L1062 61.0L1075 54.7L1088 49.2L1100 44.6L1112 40.9L1125 38.2L1138 36.5L1150 36.0L1162 36.5L1175 38.2L1188 40.9L1200 44.6"/>
+      </svg>
+    </div>
+
+    <!-- EDIT ME: name -->
+    <h1><span class="l1">Your</span><span class="l2">Name</span></h1>
+
+    <p class="pitch">
+      Electrical engineering student at EPFL. I design PCBs, and the firmware and
+      control loops that run on them — motor drives, battery packs, robots. Now
+      learning the RF side on a satellite team.
+    </p>
+
+    <!-- EDIT ME: or delete -->
+    <p class="status">Head of Power Electronics at the EPFL Racing Team. Looking for a 2027 internship.</p>
+
+    <ul class="jump">
+      <li><a href="#work">See the projects</a></li>
+      <li><a href="#contact">Get in touch</a></li>
+    </ul>
+  </section>
+
+  <!-- ==================== TEAMS ==================== -->
+  <section class="band shell" id="teams">
+    <div class="band-head">
+      <h2>Where I work</h2>
+      <span class="meta">three EPFL teams</span>
+    </div>
+
+    <article class="team">
+      <div>
+        <h3>EPFL Racing Team</h3>
+        <!-- EDIT ME: dates -->
+        <span class="span">2024 — now, two years</span>
+        <ol class="ladder">
+          <li><span class="when">2024</span> — Electronics Engineer</li>
+          <li><span class="when">2025</span> — Head of Electronics</li>
+          <li><span class="when">2026</span> — Head of Power Electronics</li>
+        </ol>
+      </div>
+      <p>
+        Two seasons on the car's electronics, moving from building boards to running
+        the group that designs them. The power electronics side covers the traction
+        inverter control, the low-voltage and high-voltage battery management
+        systems, and the custom hardware they run on.
+      </p>
+    </article>
+
+    <article class="team">
+      <div>
+        <h3>EPFL AI Team — robotics</h3>
+        <!-- EDIT ME: dates -->
+        <span class="span">2025 — now, hardware engineer</span>
+      </div>
+      <p>
+        Hardware engineer on a humanoid built from the Berkeley open-source platform,
+        and now on BARK, the team's quadruped. My end is the electronics and the
+        mechanical–electrical interface: power distribution, actuator wiring, sensing,
+        and the boards that tie them together.
+      </p>
+    </article>
+
+    <article class="team">
+      <div>
+        <h3>EPFL Spacecraft Team</h3>
+        <!-- EDIT ME: dates -->
+        <span class="span">2026 — now, RF engineer</span>
+      </div>
+      <p>
+        Newest role, on the communications side: the UHF antenna for the satellite,
+        plus bench characterisation of the UHF transceiver that flies with it. Test
+        and qualification work rather than transceiver design.
+      </p>
+    </article>
+  </section>
+
+  <!-- ==================== WORK ==================== -->
+  <section class="band shell" id="work">
+    <div class="band-head">
+      <h2>Selected work</h2>
+      <span class="meta">2024 — 2026</span>
+    </div>
+
+    <article class="project">
+      <div class="year">2026</div>
+      <div>
+        <h3><a href="#">Field-oriented control on a Zynq-7000</a></h3>
+        <span class="where">EPFL Racing Team</span>
+        <p>
+          Built the FOC algorithm in Simulink and brought it onto a Zynq-7000 SoC —
+          the fast current loop in the FPGA fabric, supervision on the ARM cores —
+          running on a board the team designed in house. It spins a motor on the
+          bench, which is the part that took the longest to earn.
+        </p>
+        <ul class="tags">
+          <li>Simulink</li><li>Zynq-7000</li><li>FPGA</li><li>Motor control</li><li>Custom PCB</li>
+        </ul>
+        <div class="links">
+          <a href="#">Write-up</a>
+          <a href="#">Video</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="year">2025</div>
+      <div>
+        <h3><a href="#">6S low-voltage BMS</a></h3>
+        <span class="where">EPFL Racing Team</span>
+        <p>
+          A six-cell battery management board doing per-cell voltage, temperature and
+          pack current monitoring with passive balancing. I designed it end to end,
+          then carried the same monitoring chain into part of the high-voltage pack's
+          BMS, where the isolation and safety requirements are a different problem
+          altogether.
+        </p>
+        <ul class="tags">
+          <li>Battery management</li><li>Analogue front end</li><li>Cell balancing</li><li>Embedded C</li>
+        </ul>
+        <div class="links">
+          <a href="#">Write-up</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="year">2025</div>
+      <div>
+        <h3><a href="#">RTK GNSS interface board</a></h3>
+        <span class="where">EPFL Racing Team</span>
+        <p>
+          A small PCB to talk to JAVAD receivers, plus a firmware rewrite in C to
+          parse the link properly. It reaches a float RTK solution and reports
+          position from it — enough to use the receiver as a real position reference
+          rather than a black box.
+        </p>
+        <ul class="tags">
+          <li>C</li><li>GNSS / RTK</li><li>JAVAD</li><li>PCB design</li>
+        </ul>
+        <div class="links">
+          <a href="#">Source</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="year">2026</div>
+      <div>
+        <h3><a href="#">BARK — quadruped robot</a></h3>
+        <span class="where">EPFL AI Team</span>
+        <p>
+          Current work: the electronics for a four-legged robot, from power
+          distribution through to the sensing that the control stack depends on.
+          Everything has to survive being dropped, which changes how you lay a board
+          out.
+        </p>
+        <ul class="tags">
+          <li>Robotics hardware</li><li>Power distribution</li><li>Sensing</li>
+        </ul>
+        <div class="links">
+          <a href="#">Project page</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="year">2025</div>
+      <div>
+        <h3><a href="#">Open-source humanoid</a></h3>
+        <span class="where">EPFL AI Team</span>
+        <p>
+          Hardware engineer on a humanoid built on the Berkeley open-source robot.
+          Adapting someone else's published design to parts you can actually get,
+          and to a team that has to maintain it, is most of the job.
+        </p>
+        <ul class="tags">
+          <li>Robotics hardware</li><li>Actuators</li><li>Wiring and power</li>
+        </ul>
+        <div class="links">
+          <a href="#">Project page</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="year">2026</div>
+      <div>
+        <h3><a href="#">UHF antenna and transceiver test</a></h3>
+        <span class="where">EPFL Spacecraft Team</span>
+        <p>
+          Just started: the satellite's UHF antenna, and the test campaign for the
+          transceiver it feeds — measuring what the link actually does before it
+          leaves the ground. Testing and characterisation only. The transceiver is
+          someone else's design, and so is the RF front end.
+        </p>
+        <ul class="tags">
+          <li>RF</li><li>UHF</li><li>Antenna</li><li>Test and measurement</li>
+        </ul>
+        <div class="links">
+          <a href="#">Team site</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="year">2026</div>
+      <div>
+        <h3><a href="#">Zero-knowledge drone identification</a></h3>
+        <span class="where">European Defence Tech Hackathon, Prague</span>
+        <p>
+          A concept I pitched at the hackathon: let friendly drones prove they belong
+          to the fleet without broadcasting who they are, so a perimeter can sit
+          electronically quiet and only speak once something unrecognised crosses it.
+          A protocol proposal rather than a built system.
+        </p>
+        <ul class="tags">
+          <li>Zero-knowledge proofs</li><li>Protocol design</li><li>Hackathon</li>
+        </ul>
+        <div class="links">
+          <a href="#">Slides</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ==================== BOARD VIEWER ====================
+       Stays hidden until you fill in data-project-src below.
+
+       1. In Altium: zip the project folder (.PrjPcb + .SchDoc + .PcbDoc + libs).
+       2. Commit it to this repo, e.g. boards/imx93.zip
+       3. Put that path in data-project-src and drop the hidden attribute
+          from the <section> (the script removes it automatically once the
+          src is non-empty, so you can leave it).
+
+       Only publish boards you own. Team designs need the team's OK first.
+  ==================================================================== -->
+  <section class="band shell" id="board" hidden>
+    <div class="band-head">
+      <h2>Open a board</h2>
+      <span class="meta">pan, zoom, layers, 3D</span>
+    </div>
+
+    <div class="viewer">
+      <div class="altium-ecad-viewer"
+           data-project-src=""
+           data-active-view="pcb">
+        <a href="https://www.altium365.com/viewer/">PCB File Viewer by Altium</a>
+      </div>
+    </div>
+
+    <!-- EDIT ME: caption -->
+    <p class="caption">
+      The i.MX 93 carrier board, straight from the Altium project — the same
+      files I sent to review, not a screenshot.
+    </p>
+  </section>
+
+  <!-- ==================== SHELF ==================== -->
+  <section class="band shell" id="shelf">
+    <div class="band-head">
+      <h2>On the bench</h2>
+      <span class="meta">personal, unfinished</span>
+    </div>
+
+    <ul class="shelf">
+      <li>
+        <div>
+          <strong>i.MX 93 carrier board</strong>
+          <span class="note">
+            A single-board computer around the NXP i.MX 93, with LPDDR4X memory,
+            DisplayPort output and the usual peripheral set. Routed and reviewed;
+            no boards fabricated yet.
+          </span>
+        </div>
+        <span class="state">design done, untested</span>
+      </li>
+      <li>
+        <div>
+          <strong>Brushless ESC for a drone</strong>
+          <span class="note">
+            A speed controller design — gate drive, current sensing, and the
+            commutation scheme. Sitting in the same queue as the board above.
+          </span>
+        </div>
+        <span class="state">design done, untested</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section class="band shell" id="about">
+    <div class="band-head"><h2>About</h2></div>
+
+    <div class="about-grid">
+      <!-- EDIT ME: rewrite this in your own words -->
+      <div class="about-prose">
+        <p>
+          I'm an electrical engineering student at EPFL. Most of what I know I learned
+          on student teams, where nobody hands you a spec — you find out what the car
+          or the robot needs, design the board, and then answer for it when it doesn't
+          work on the first try.
+        </p>
+        <p>
+          The work I keep coming back to sits where power, control and firmware meet:
+          a motor controller is a magnetics problem, a real-time software problem and
+          a thermal problem at once, and you can't fake your way through any of them.
+          Lately I've been adding RF to that list.
+        </p>
+        <p>
+          I'd like to spend the next few years on hardware that has to survive
+          something — a race, a drop, a launch.
+        </p>
+      </div>
+
+      <!-- EDIT ME: your real toolchain -->
+      <dl class="facts">
+        <dt>Design</dt>
+        <dd>Altium Designer<br>KiCad</dd>
+
+        <dt>Code</dt>
+        <dd>C<br>C++<br>AVR assembly<br>MATLAB / Simulink<br>Vivado / Vitis<br>Python</dd>
+
+        <dt>Areas</dt>
+        <dd>Hardware design, mostly PCBs<br>Motor control<br>Battery management<br>Embedded firmware<br>RF and antennas</dd>
+
+        <dt>Based in</dt>
+        <dd>Lausanne, Switzerland</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section class="band shell" id="contact">
+    <div class="contact">
+      <h2>Get in touch</h2>
+      <p>
+        Internships, student team collaborations, or a question about any of the
+        boards above — all welcome.
+      </p>
+
+      <!-- EDIT ME: email in both places -->
+      <a class="mail" id="mail" href="mailto:karol.wickel@gmail.com">karol.wickel@gmail.com</a>
+      <br>
+      <button class="copy-btn" id="copyBtn" type="button" data-email="karol.wickel@gmail.com">Copy address</button>
+
+      <!-- EDIT ME: your links -->
+      <ul class="elsewhere">
+        <li><a href="https://github.com/tymonix192">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/karol-wickel-823480353/">LinkedIn</a></li>
+        <li><a href="#">CV (PDF)</a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="colophon shell">
+  <span>Written by hand, hosted on GitHub Pages</span>
+  <span>Last updated September 2026</span>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var root = document.documentElement;
+  var btn = document.getElementById("themeBtn");
+
+  function stored() { try { return localStorage.getItem("theme"); } catch (e) { return null; } }
+  function remember(v) { try { localStorage.setItem("theme", v); } catch (e) {} }
+  function isDark() {
+    var t = root.getAttribute("data-theme");
+    if (t) return t === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  function label() {
+    btn.setAttribute("aria-label", isDark() ? "Switch to light theme" : "Switch to dark theme");
+  }
+
+  var saved = stored();
+  if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
+  label();
+
+  btn.addEventListener("click", function () {
+    var next = isDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    remember(next);
+    label();
+  });
+
+  /* Board viewer: the section stays hidden, and Altium's script is never
+     fetched, until data-project-src actually points at a file. */
+  var board = document.getElementById("board");
+  var holder = board && board.querySelector(".altium-ecad-viewer");
+  if (holder && (holder.getAttribute("data-project-src") || "").trim()) {
+    board.hidden = false;
+    var s = document.createElement("script");
+    s.src = "https://viewer.altium.com/client/static/js/embed.js";
+    s.async = true;
+    document.head.appendChild(s);
+  }
+
+  var copyBtn = document.getElementById("copyBtn");
+  copyBtn.addEventListener("click", function () {
+    var address = copyBtn.dataset.email;
+    var done = function () {
+      copyBtn.textContent = "Copied";
+      setTimeout(function () { copyBtn.textContent = "Copy address"; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(address).then(done, function () {
+        copyBtn.textContent = "Select the address above";
+      });
+    } else {
+      copyBtn.textContent = "Select the address above";
+    }
+  });
+})();
+</script>
+</body>
+</html>
