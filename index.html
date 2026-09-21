@@ -14,9 +14,9 @@
        6. Project links (repos, reports, videos) — all currently "#"
      ============================================================ -->
 
-<title>Karol Wickel — electrical engineering, EPFL</title>
+<title>Your Name — electrical engineering, EPFL</title>
 <meta name="description" content="Electrical engineering student at EPFL. PCB design, motor control, battery management systems and embedded firmware.">
-<meta property="og:title" content="Karol Wickel — electrical engineering, EPFL">
+<meta property="og:title" content="Your Name — electrical engineering, EPFL">
 <meta property="og:description" content="PCB design, motor control, battery management systems and embedded firmware.">
 <meta property="og:type" content="website">
 
@@ -316,6 +316,17 @@ h1 .l2 { display: block; color: var(--ink-soft); }
   background: var(--paper-sunk);
 }
 .viewer .altium-ecad-viewer { height: clamp(360px, 58vh, 620px); width: 100%; }
+.pcb + .pcb { margin-top: clamp(2.5rem, 6vw, 4rem); }
+.pcb-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1rem; margin-bottom: 0.85rem;
+}
+.pcb-head h3 {
+  font-size: var(--s-1); font-weight: 700;
+  font-variation-settings: "wdth" 102, "wght" 700;
+  letter-spacing: -0.02em; line-height: 1.2; margin: 0;
+}
+.pcb-meta { font-family: var(--mono); font-size: var(--s--1); color: var(--ink-soft); white-space: nowrap; }
 .caption {
   margin: 0.9rem 0 0;
   font-size: var(--s--1);
@@ -654,13 +665,13 @@ h1 .l2 { display: block; color: var(--ink-soft); }
   </section>
 
   <!-- ==================== BOARD VIEWER ====================
-       Stays hidden until you fill in data-project-src below.
+       One <article class="pcb"> per board. Any board whose data-project-src
+       is empty is removed automatically, and the whole section stays hidden
+       until at least one has a URL. To add a third board, copy a block.
 
-       1. In Altium: zip the project folder (.PrjPcb + .SchDoc + .PcbDoc + libs).
-       2. Commit it to this repo, e.g. boards/imx93.zip
-       3. Put that path in data-project-src and drop the hidden attribute
-          from the <section> (the script removes it automatically once the
-          src is non-empty, so you can leave it).
+       data-project-src must be the FULL public URL, not a relative path:
+         https://USERNAME.github.io/boards/FILENAME.zip
+       Filenames are case-sensitive. Nothing renders until the ZIP is live.
 
        Only publish boards you own. Team designs need the team's OK first.
   ==================================================================== -->
@@ -670,19 +681,46 @@ h1 .l2 { display: block; color: var(--ink-soft); }
       <span class="meta">pan, zoom, layers, 3D</span>
     </div>
 
-    <div class="viewer">
-      <div class="altium-ecad-viewer"
-           data-project-src=""
-           data-active-view="pcb">
-        <a href="https://www.altium365.com/viewer/">PCB File Viewer by Altium</a>
+    <!-- ---------- BOARD 1 ---------- -->
+    <article class="pcb">
+      <div class="pcb-head">
+        <h3>i.MX 93 drone flight computer</h3>
+        <span class="pcb-meta">MIMX9352</span>
       </div>
-    </div>
+      <div class="viewer">
+        <div class="altium-ecad-viewer"
+             data-project-src="https://tymonix192.github.io/boards/COMP.zip"
+             data-active-view="pcb">
+          <a href="https://www.altium365.com/viewer/">PCB File Viewer by Altium</a>
+        </div>
+      </div>
+      <!-- EDIT ME: caption -->
+      <p class="caption">
+        LPDDR4X, MIPI CSI camera input, Ethernet and its own PMIC, straight from
+        the Altium project rather than a screenshot. Designed, not yet fabricated.
+      </p>
+    </article>
 
-    <!-- EDIT ME: caption -->
-    <p class="caption">
-      The i.MX 93 carrier board, straight from the Altium project — the same
-      files I sent to review, not a screenshot.
-    </p>
+    <!-- ---------- BOARD 2 ---------- -->
+    <article class="pcb">
+      <div class="pcb-head">
+        <!-- EDIT ME: title and one-word meta -->
+        <h3>Low voltage BMS board</h3>
+        <span class="pcb-meta">drone</span>
+      </div>
+      <div class="viewer">
+        <div class="altium-ecad-viewer"
+             data-project-src="https://tymonix192.github.io/boards/LVBMS.zip"
+             data-active-view="pcb">
+          <a href="https://www.altium365.com/viewer/">PCB File Viewer by Altium</a>
+        </div>
+      </div>
+      <!-- EDIT ME: caption -->
+      <p class="caption">
+        A fabricated design of a BMS for a 6s battery with voltage, temperature and current sensing,
+        providing OTP, OCP and OVP.
+      </p>
+    </article>
   </section>
 
   <!-- ==================== SHELF ==================== -->
@@ -745,13 +783,13 @@ h1 .l2 { display: block; color: var(--ink-soft); }
       <!-- EDIT ME: your real toolchain -->
       <dl class="facts">
         <dt>Design</dt>
-        <dd>Altium Designer<br>KiCad</dd>
+        <dd>Altium Designer<br>LT Spice</dd>
 
         <dt>Code</dt>
         <dd>C<br>C++<br>AVR assembly<br>MATLAB / Simulink<br>Vivado / Vitis<br>Python</dd>
 
         <dt>Areas</dt>
-        <dd>Hardware design, mostly PCBs<br>Motor control<br>Battery management<br>Embedded firmware<br>RF and antennas</dd>
+        <dd>Hardware design<br>Motor control<br>Battery management<br>Embedded firmware<br>RF and antennas</dd>
 
         <dt>Based in</dt>
         <dd>Lausanne, Switzerland</dd>
@@ -776,7 +814,7 @@ h1 .l2 { display: block; color: var(--ink-soft); }
       <!-- EDIT ME: your links -->
       <ul class="elsewhere">
         <li><a href="https://github.com/tymonix192">GitHub</a></li>
-        <li><a href="https://www.linkedin.com/in/karol-wickel-823480353/">LinkedIn</a></li>
+        <li><a href="https://linkedin.com/in/karol-wickel">LinkedIn</a></li>
         <li><a href="#">CV (PDF)</a></li>
       </ul>
     </div>
@@ -820,8 +858,15 @@ h1 .l2 { display: block; color: var(--ink-soft); }
   /* Board viewer: the section stays hidden, and Altium's script is never
      fetched, until data-project-src actually points at a file. */
   var board = document.getElementById("board");
-  var holder = board && board.querySelector(".altium-ecad-viewer");
-  if (holder && (holder.getAttribute("data-project-src") || "").trim()) {
+  var live = 0;
+  if (board) {
+    Array.prototype.forEach.call(board.querySelectorAll(".pcb"), function (card) {
+      var v = card.querySelector(".altium-ecad-viewer");
+      if (v && (v.getAttribute("data-project-src") || "").trim()) live++;
+      else card.parentNode.removeChild(card);
+    });
+  }
+  if (live) {
     board.hidden = false;
     var s = document.createElement("script");
     s.src = "https://viewer.altium.com/client/static/js/embed.js";
