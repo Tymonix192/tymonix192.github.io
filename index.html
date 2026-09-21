@@ -315,7 +315,33 @@ h1 .l2 { display: block; color: var(--ink-soft); }
   overflow: hidden;
   background: var(--paper-sunk);
 }
-.viewer .altium-ecad-viewer { height: clamp(360px, 58vh, 620px); width: 100%; }
+.viewer { --viewer-h: clamp(460px, 74vh, 780px); }
+.viewer > div,
+.viewer .altium-ecad-viewer {
+  width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  min-height: var(--viewer-h);
+}
+.viewer iframe {
+  display: block;
+  width: 100% !important;
+  height: var(--viewer-h) !important;
+  max-height: none !important;
+  border: 0;
+}
+@media (max-width: 640px) {
+  .viewer { --viewer-h: max(360px, 60vh); }
+}
+.viewer a[href*="altium365.com"] {
+  display: block;
+  padding: 0.45rem 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.viewer a[href*="altium365.com"]:hover { color: var(--pop); }
 .pcb + .pcb { margin-top: clamp(2.5rem, 6vw, 4rem); }
 .pcb-head {
   display: flex; align-items: baseline; justify-content: space-between;
