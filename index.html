@@ -307,59 +307,155 @@ h1 .l2 { display: block; color: var(--ink-soft); }
   .project .year { padding-top: 0; margin-bottom: 0.45rem; }
 }
 
-/* ---------------- board viewer ---------------- */
+/* ---------------- boards: compact rows, viewer in a pop-up ---------------- */
 [hidden] { display: none !important; }
-.viewer {
+html { scrollbar-gutter: stable; }
+html.dlg-open { overflow: hidden; }
+
+.pcb {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem 2.5rem;
+  padding-block: clamp(1.25rem, 3vw, 1.75rem);
+  border-top: 1px solid var(--rule);
+}
+.pcb:last-of-type { border-bottom: 1px solid var(--rule); }
+.pcb-text h3 {
+  font-size: var(--s-1);
+  font-weight: 700;
+  font-variation-settings: "wdth" 102, "wght" 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+}
+.pcb-meta { display: block; font-family: var(--mono); font-size: var(--s--1); color: var(--pop); margin: 0.2rem 0 0.55rem; }
+.caption { margin: 0; font-size: var(--s--1); color: var(--ink-soft); max-width: var(--prose); text-wrap: pretty; }
+
+.open-board {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--sans);
+  font-size: var(--s--1);
+  font-weight: 600;
+  color: var(--ink);
+  background: transparent;
   border: 1px solid var(--rule);
-  border-radius: 6px;
+  border-radius: 999px;
+  padding: 0.65rem 1.1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+.open-board:hover { color: var(--pop); border-color: var(--pop); background: var(--pop-quiet); }
+.open-board svg { width: 14px; height: 14px; flex: none; }
+
+@media (max-width: 640px) {
+  .pcb { grid-template-columns: 1fr; }
+  .open-board { justify-self: start; }
+}
+
+/* The dialog stays laid out at full size even while closed, only invisible,
+   so Altium's viewer inside starts at the right size and never reloads when
+   someone opens it. */
+.board-dialog {
+  --bar-h: 3.5rem;
+  --dlg-w: min(1400px, 96%);
+  --dlg-h: min(920px, 92vh);
+  --dlg-edge: 1px;
+  --safe-y: 0px;
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: var(--dlg-w);
+  height: var(--dlg-h);
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: var(--dlg-edge) solid var(--rule);
+  border-radius: 10px;
   overflow: hidden;
-  background: var(--paper-sunk);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
 }
-.viewer { --viewer-h: clamp(460px, 74vh, 780px); }
-.viewer > div,
-.viewer .altium-ecad-viewer {
-  width: 100%;
-  height: auto !important;
-  max-height: none !important;
-  min-height: var(--viewer-h);
+@supports (height: 1dvh) { .board-dialog { --dlg-h: min(920px, 92dvh); } }
+.board-dialog:not([open]) { visibility: hidden; opacity: 0; pointer-events: none; z-index: -1; }
+.board-dialog[open] { animation: dlg-in 0.18s ease; }
+@keyframes dlg-in { from { opacity: 0; transform: translateY(8px) scale(0.99); } }
+.board-dialog::backdrop { background: rgba(6, 10, 14, 0.72); backdrop-filter: blur(3px); }
+
+@media (max-width: 640px) {
+  .board-dialog {
+    --dlg-w: 100%;
+    --dlg-h: 100vh;
+    --dlg-edge: 0px;
+    --safe-y: calc(env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
+    border-radius: 0;
+    padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  }
+  @supports (height: 1dvh) { .board-dialog { --dlg-h: 100dvh; } }
 }
-.viewer iframe {
+
+.dlg-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: var(--bar-h);
+  padding: 0 0.6rem 0 1.1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.dlg-bar h3 {
+  font-size: var(--s-0);
+  font-weight: 700;
+  font-variation-settings: "wdth" 100, "wght" 700;
+  letter-spacing: -0.01em;
+  margin: 0 auto 0 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dlg-credit { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft); text-decoration: none; white-space: nowrap; }
+.dlg-credit:hover { color: var(--pop); }
+.dlg-close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.dlg-close:hover { color: var(--pop); border-color: var(--pop); }
+.dlg-close svg { width: 15px; height: 15px; }
+
+.board-dialog .viewer { flex: 1 1 auto; min-height: 0; overflow: hidden; background: var(--paper-sunk); }
+/* Altium swaps in its own frame, so size the frame itself: it fills the
+   dialog however the script wraps it. */
+.board-dialog .viewer > div,
+.board-dialog .viewer .altium-ecad-viewer { width: 100%; height: auto !important; max-height: none !important; }
+.board-dialog .viewer iframe {
   display: block;
   width: 100% !important;
-  height: var(--viewer-h) !important;
+  height: calc(var(--dlg-h) - var(--bar-h) - 2 * var(--dlg-edge) - var(--safe-y)) !important;
   max-height: none !important;
   border: 0;
 }
-@media (max-width: 640px) {
-  .viewer { --viewer-h: max(360px, 60vh); }
+.board-dialog.nudge .viewer iframe {
+  height: calc(var(--dlg-h) - var(--bar-h) - 2 * var(--dlg-edge) - var(--safe-y) - 1px) !important;
 }
-.viewer a[href*="altium365.com"] {
-  display: block;
-  padding: 0.45rem 0.8rem;
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--ink-soft);
-  text-decoration: none;
-}
-.viewer a[href*="altium365.com"]:hover { color: var(--pop); }
-.pcb + .pcb { margin-top: clamp(2.5rem, 6vw, 4rem); }
-.pcb-head {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 1rem; margin-bottom: 0.85rem;
-}
-.pcb-head h3 {
-  font-size: var(--s-1); font-weight: 700;
-  font-variation-settings: "wdth" 102, "wght" 700;
-  letter-spacing: -0.02em; line-height: 1.2; margin: 0;
-}
-.pcb-meta { font-family: var(--mono); font-size: var(--s--1); color: var(--ink-soft); white-space: nowrap; }
-.caption {
-  margin: 0.9rem 0 0;
-  font-size: var(--s--1);
-  color: var(--ink-soft);
-  max-width: var(--prose);
-}
-.caption code { font-family: var(--mono); font-size: 0.95em; }
+/* Altium's fallback link text; the credit sits in the dialog bar instead */
+.board-dialog .altium-ecad-viewer,
+.board-dialog .viewer a[href*="altium365.com"] { font-size: 0; line-height: 0; color: transparent; text-decoration: none; }
 
 /* ---------------- shelf (smaller builds) ---------------- */
 .shelf { list-style: none; margin: 0; padding: 0; }
@@ -690,15 +786,18 @@ h1 .l2 { display: block; color: var(--ink-soft); }
     </article>
   </section>
 
-  <!-- ==================== BOARD VIEWER ====================
-       One <article class="pcb"> per board. Any board whose data-project-src
-       is empty is removed automatically, and the whole section stays hidden
-       until at least one has a URL. To add a third board, copy a block.
+  <!-- ==================== BOARDS ====================
+       Each board is one compact row with an "Open the board" button; the
+       Altium viewer lives in a pop-up <dialog> inside the same <article>.
 
-       data-project-src must be the FULL public URL, not a relative path:
-         https://USERNAME.github.io/boards/FILENAME.zip
-       Filenames are case-sensitive. Nothing renders until the ZIP is live.
+       To add a board: copy an <article class="pcb"> block and change
+         - the title (it appears twice: the row and the dialog bar)
+         - the meta tag and caption
+         - data-dialog on the button AND id / aria-labelledby on the dialog
+           (all three must use the same new key, e.g. dlg-esc)
+         - data-project-src: the FULL public URL to the ZIP, case-sensitive
 
+       A board with an empty data-project-src is removed automatically.
        Only publish boards you own. Team designs need the team's OK first.
   ==================================================================== -->
   <section class="band shell" id="board" hidden>
@@ -707,45 +806,68 @@ h1 .l2 { display: block; color: var(--ink-soft); }
       <span class="meta">pan, zoom, layers, 3D</span>
     </div>
 
-    <!-- ---------- BOARD 1 ---------- -->
     <article class="pcb">
-      <div class="pcb-head">
+      <div class="pcb-text">
         <h3>i.MX 93 drone flight computer</h3>
         <span class="pcb-meta">MIMX9352</span>
+        <p class="caption">
+          LPDDR4X, MIPI CSI camera input, Ethernet and its own PMIC, straight from
+          the Altium project rather than a screenshot. Designed, not yet fabricated.
+        </p>
       </div>
-      <div class="viewer">
-        <div class="altium-ecad-viewer"
-             data-project-src="https://tymonix192.github.io/boards/COMP.zip"
-             data-active-view="pcb">
-          <a href="https://www.altium365.com/viewer/">PCB File Viewer by Altium</a>
+      <button class="open-board" type="button" data-dialog="dlg-imx93">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        Open the board
+      </button>
+
+      <dialog class="board-dialog" id="dlg-imx93" aria-labelledby="dlg-imx93-title">
+        <div class="dlg-bar">
+          <h3 id="dlg-imx93-title">i.MX 93 drone flight computer</h3>
+          <a class="dlg-credit" href="https://www.altium365.com/viewer/">Altium 365 Viewer</a>
+          <button class="dlg-close" type="button" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
         </div>
-      </div>
-      <!-- EDIT ME: caption -->
-      <p class="caption">
-        LPDDR4X, MIPI CSI camera input, Ethernet and its own PMIC, straight from
-        the Altium project rather than a screenshot. Designed, not yet fabricated.
-      </p>
+        <div class="viewer">
+          <div class="altium-ecad-viewer"
+               data-project-src="https://tymonix192.github.io/boards/COMP.zip"
+               data-active-view="pcb">
+            <a href="https://www.altium365.com/viewer/">PCB File Viewer by Altium</a>
+          </div>
+        </div>
+      </dialog>
     </article>
 
-    <!-- ---------- BOARD 2 ---------- -->
     <article class="pcb">
-      <div class="pcb-head">
-        <!-- EDIT ME: title and one-word meta -->
+      <div class="pcb-text">
         <h3>Low voltage BMS board</h3>
-        <span class="pcb-meta">drone</span>
+        <span class="pcb-meta">6S</span>
+        <p class="caption">
+          A fabricated design of a BMS for a 6s battery with voltage, temperature and current sensing,
+          providing OTP, OCP and OVP.
+        </p>
       </div>
-      <div class="viewer">
-        <div class="altium-ecad-viewer"
-             data-project-src="https://tymonix192.github.io/boards/LVBMS.zip"
-             data-active-view="pcb">
-          <a href="https://www.altium365.com/viewer/">PCB File Viewer by Altium</a>
+      <button class="open-board" type="button" data-dialog="dlg-lvbms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        Open the board
+      </button>
+
+      <dialog class="board-dialog" id="dlg-lvbms" aria-labelledby="dlg-lvbms-title">
+        <div class="dlg-bar">
+          <h3 id="dlg-lvbms-title">Low voltage BMS board</h3>
+          <a class="dlg-credit" href="https://www.altium365.com/viewer/">Altium 365 Viewer</a>
+          <button class="dlg-close" type="button" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
         </div>
-      </div>
-      <!-- EDIT ME: caption -->
-      <p class="caption">
-        A fabricated design of a BMS for a 6s battery with voltage, temperature and current sensing,
-        providing OTP, OCP and OVP.
-      </p>
+        <div class="viewer">
+          <div class="altium-ecad-viewer"
+               data-project-src="https://tymonix192.github.io/boards/LVBMS.zip"
+               data-active-view="pcb">
+            <a href="https://www.altium365.com/viewer/">PCB File Viewer by Altium</a>
+          </div>
+        </div>
+      </dialog>
     </article>
   </section>
 
@@ -881,8 +1003,8 @@ h1 .l2 { display: block; color: var(--ink-soft); }
     label();
   });
 
-  /* Board viewer: the section stays hidden, and Altium's script is never
-     fetched, until data-project-src actually points at a file. */
+  /* Boards: drop any without a file, then load Altium's script once.
+     The viewers load in the background inside their (invisible) dialogs. */
   var board = document.getElementById("board");
   var live = 0;
   if (board) {
@@ -899,6 +1021,39 @@ h1 .l2 { display: block; color: var(--ink-soft); }
     s.async = true;
     document.head.appendChild(s);
   }
+
+  /* Pop-up viewers */
+  function openBoard(dlg) {
+    if (typeof dlg.showModal === "function") dlg.showModal();
+    else dlg.setAttribute("open", "");
+    root.classList.add("dlg-open");
+    var x = dlg.querySelector(".dlg-close");
+    if (x) x.focus();
+    // resize the frame by 1px for two frames so the viewer repaints after being hidden
+    dlg.classList.add("nudge");
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { dlg.classList.remove("nudge"); });
+    });
+  }
+  function closeBoard(dlg) {
+    if (typeof dlg.close === "function") dlg.close();
+    else { dlg.removeAttribute("open"); root.classList.remove("dlg-open"); }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".open-board"), function (trigger) {
+    trigger.addEventListener("click", function () {
+      var dlg = document.getElementById(trigger.getAttribute("data-dialog"));
+      if (dlg) openBoard(dlg);
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll(".board-dialog"), function (dlg) {
+    // fires on the close button, a backdrop click, and the Esc key alike
+    dlg.addEventListener("close", function () { root.classList.remove("dlg-open"); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) closeBoard(dlg); });
+    var x = dlg.querySelector(".dlg-close");
+    if (x) x.addEventListener("click", function () { closeBoard(dlg); });
+  });
 
   var copyBtn = document.getElementById("copyBtn");
   copyBtn.addEventListener("click", function () {
